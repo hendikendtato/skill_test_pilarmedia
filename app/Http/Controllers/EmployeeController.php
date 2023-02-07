@@ -14,7 +14,15 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees = Employee::all();
+        // if(request()->ajax()) {
+        //     return datatables($employees)
+        //         ->addIndexColumn()
+        //         ->toJson();
+        // }
+        return view('employee', [
+            "employees" => $employees
+        ]);
     }
 
     /**
