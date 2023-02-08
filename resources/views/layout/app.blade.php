@@ -12,6 +12,11 @@
   <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('css/ruang-admin.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('vendor/select2/dist/css/select2.css') }}" rel="stylesheet" />
+  <!-- <link href="{{ asset('vendor/select2/dist/css/select2.min.css') }}" rel="stylesheet" /> -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
   @yield('css')
 </head>
 
@@ -62,6 +67,8 @@
   <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
   <script src="{{ asset('js/ruang-admin.min.js') }}"></script>
+  <script src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
   @stack('js')
+  @include('sweetalert::alert')
 </body>
 </html>

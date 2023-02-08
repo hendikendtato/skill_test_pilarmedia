@@ -20,3 +20,5 @@ Route::get('/', function () {
 });
 Route::resource('position',PositionController::class);
 Route::resource('employee',EmployeeController::class);
+
+Route::post('employee/update_status', [EmployeeController::class, 'update_status']);
