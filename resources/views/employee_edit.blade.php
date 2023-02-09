@@ -7,8 +7,7 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Tambah Karyawan</h1>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url('/') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Karyawan</li>
+        <li class="breadcrumb-item"><a href="{{ route('employee.index') }}">Karyawan</a></li>
         <li class="breadcrumb-item active" aria-current="page">Add</li>
     </ol>
 </div>
@@ -119,7 +118,8 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-md btn-primary">SIMPAN</button>
+                <a href="{{ route('employee.index') }}" class="btn btn-md btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-md btn-primary">Update</button>
                 </div>
             </div>
         </form>
@@ -147,7 +147,7 @@
         var currentYear = (new Date()).getFullYear();
  
         //Loop and add the Year values to DropDownList.
-        for (var i = 1950; i <= currentYear; i++) {
+        for (var i = currentYear; i >= 1950; i--) {
             var option = document.createElement("OPTION");
             option.innerHTML = i;
             option.value = i;

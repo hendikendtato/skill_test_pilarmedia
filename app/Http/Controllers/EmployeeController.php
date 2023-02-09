@@ -53,9 +53,15 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'              => 'string',
-            'nip'               => 'unique:employees,nip',
-            'phone_number'      => 'numeric',
+            'name'              => 'required|string',
+            'nip'               => 'required|unique:employees,nip',
+            'department'        => 'required',
+            'birth_date'        => 'required',
+            'birth_year'        => 'required',
+            'address'           => 'required',
+            'religion'          => 'required',
+            'status'            => 'required',
+            'phone_number'      => 'required|numeric',
             'id_card_photo'     => 'required|image|mimes:png,jpg',
         ]);
 
@@ -81,9 +87,9 @@ class EmployeeController extends Controller
                 'address'       => $request->address
             ]);
     
-            return redirect()->route('employee.index')->with('success', 'Created successfully!');
+            return redirect()->route('employee.index')->with('success', 'Berhasil Tambah Data');
         } catch (\Exception $e){
-            return redirect()->route('employee.index')->with('error', 'Error during the creation!');
+            return redirect()->route('employee.index')->with('error', 'Gagal Tambah Data');
         }
 
     }
@@ -96,7 +102,13 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        $employees = Employee::join('positions', 'positions.id', '=', 'employees.position_id')
+            ->where('employees.id', $employee->id)
+            ->first(['employees.*','positions.name AS jabatan']);
+
+        return view('employee_view', [
+            "employees" => $employees
+        ]);
     }
 
     /**
@@ -124,13 +136,10 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $this->validate($request, [
-            'name'              => 'string',
+            'name'              => 'required|regex:/^[\pL\s]+$/u|min:3',
             'phone_number'      => 'numeric',
             'id_card_photo'     => 'image|mimes:png,jpg',
         ]);
-
-        // $employee = Employee::findOrFail($employee->id);
-
         
         if($request->file('id_card_photo') == "") {
             
@@ -153,15 +162,12 @@ class EmployeeController extends Controller
             Storage::disk('local')->delete('upload'.$employee->id_card_photo);
             
             //upload image
-            // $image = $request->file('id_card_photo');
             $fileName = $request->file('id_card_photo')->hashName();  
 
             $type = $request->id_card_photo->getClientMimeType();
             $size = $request->id_card_photo->getSize();
     
             $request->id_card_photo->move(public_path('upload'), $fileName);
-
-            // $image->storeAs('public/upload', $image->hashName());
 
             Employee::where('id', $employee->id)
                     ->update([
@@ -178,7 +184,7 @@ class EmployeeController extends Controller
                         'address'       => $request->address
                     ]);
         }
-        return redirect()->route('employee.index')->with('success', 'Updated successfully!');
+        return redirect()->route('employee.index')->with('success', 'Berhasil Update Data');
     }
 
     /**
@@ -191,7 +197,7 @@ class EmployeeController extends Controller
     {
         Employee::where('id', $employee->id)->delete();
 
-        return redirect()->route('employee.index');
+        return redirect()->route('employee.index')->with('success', 'Berhasil Hapus Data');
     }
 
     public function update_status(Request $request, Employee $employee)

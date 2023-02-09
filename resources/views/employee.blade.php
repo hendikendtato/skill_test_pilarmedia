@@ -29,14 +29,15 @@
                   <th>Departemen</th>
                   <th>Jabatan</th>
                   <th>Status</th>
-                  <th>Aksi</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 @foreach($employees AS $emp)
-                <?php $no=0; ?>
                 <tr>
-                    <td><?= $no; $no++; ?></td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $emp['name'] }}</td>
                     <td>{{ $emp['nip'] }}</td>
                     <td>{{ $emp['department'] }}</td>
@@ -54,15 +55,19 @@
                       </div>
                     </td>
                     <td>
-                        <a href="{{ route('employee.edit', $emp['id']) }}" class="btn btn-sm btn-warning">Update</a>
-                        <form method="post" action="{{ route('employee.destroy', $emp['id']) }}">
-                            @method('delete')
-                            @csrf
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');">Hapus</button>
-                        </form>
+                      <a href="{{ route('employee.show', $emp['id']) }}" class="btn btn-sm btn-success"><i class="fas fa-search"></i></a>
+                    </td>
+                    <td>
+                      <a href="{{ route('employee.edit', $emp['id']) }}" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>
+                    </td>
+                    <td>
+                      <form method="post" action="{{ route('employee.destroy', $emp['id']) }}">
+                        @method('delete')
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda Yakin Menghapus Data?');"><i class="fas fa-trash"></i></button>
+                      </form>
                     </td>
                 </tr>
-                <?php $no++; ?>
                 @endforeach
               </tbody>
             </table>
